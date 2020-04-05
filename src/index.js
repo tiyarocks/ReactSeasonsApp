@@ -22,30 +22,39 @@ class App extends React.Component{
             }
         )
     }
+    //this is a helper function so that we can wrap render with a common div
+    renderContent(){
+        if(this.state.errorMssg&&!this.state.lat){
+            return (
+                <div>
+                    Error:{this.state.errorMssg}
+                </div>
+            )
+       }
+
+
+       if(!this.state.errorMssg&&this.state.lat){
+            return (
+                <SeasonDisplay lat={this.state.lat}/>
+            )
+        }
+
+        return  (
+            <div>
+                <Spinner message="Plz accept location request"/>
+            </div>
+        )
+    }
+    
+
     //react calls our render method a second time
     render(){
         //conditional rendering
-           if(this.state.errorMssg&&!this.state.lat){
-                return (
-                    <div>
-                        Error:{this.state.errorMssg}
-                    </div>
-                )
-           }
-
-
-           if(!this.state.errorMssg&&this.state.lat){
-                return (
-                    <SeasonDisplay lat={this.state.lat}/>
-                )
-            }
-
-            return  (
-                <div>
-                    <Spinner message="Plz accept location request"/>
-                </div>
-            )
-    }
+    return(
+        <div className="border red">
+              { this.renderContent() }
+        </div>
+    )       
         
-}
+    }
 ReactDOM.render(<App/>,document.querySelector("#root"))
